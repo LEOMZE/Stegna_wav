@@ -32,7 +32,7 @@ public class SWrite {
                 for(int i=0; i < bytes; i++) {
                     unsigned = data[i] & 0xFF;
 
-                    if(i % 4 == 0) {
+                    if((i % 4 == 0 | i % 3 == 0)) {
                         if (data[i] == 0 | data[i] == 1) {
                             c_data[i] = (byte) unsigned;
                         } else {

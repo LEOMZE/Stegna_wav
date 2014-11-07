@@ -28,7 +28,7 @@ public class SRead {
             System.out.println("\n\nStart desteg!!!");
             while((bytes = bufferedInputStream.read(data)) > -1){
                 for(int i=0; i<bytes; i++) {
-                    if (i % 4 == 0 & data[i] != 1 & data[i] != 0 & endFlag == false) {
+                    if ((i % 4 == 0 | i % 3 == 0) & data[i] != 1 & data[i] != 0 & endFlag == false) {
                         if (cursorMsg == 8) {
                             String str = new String();
                             for (Integer b : arrayList) {

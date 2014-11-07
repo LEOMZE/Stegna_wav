@@ -1,14 +1,19 @@
 package UI;
 
 
+
 import javafx.fxml.FXML;
+import javafx.fxml.Initializable;
 import javafx.scene.chart.LineChart;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.ProgressIndicator;
 import javafx.scene.control.TextArea;
 
-public class StegUIController {
+import java.net.URL;
+import java.util.ResourceBundle;
+
+public class StegUIController implements Initializable {
 
     @FXML
     private LineChart<Integer, Integer> wavChart;
@@ -34,16 +39,9 @@ public class StegUIController {
     @FXML
     private TextArea stegTextArea;
 
-    private StegUI stegUI;
 
-
-    public StegUIController(){
+    @Override
+    public void initialize(URL url, ResourceBundle resourceBundle) {
 
     }
-
-
-
-
-
-
 }
