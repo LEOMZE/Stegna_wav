@@ -9,9 +9,11 @@ import java.util.ArrayList;
 
 public class SRead {
     private String filePath;
+    private int numByte;
 
-    public SRead(String filePath){
+    public SRead(String filePath , int numByte){
         this.filePath = filePath;
+        this.numByte = numByte;
     }
 
     public String desteg(){
@@ -28,17 +30,16 @@ public class SRead {
             System.out.println("\n\nStart desteg!!!");
             while((bytes = bufferedInputStream.read(data)) > -1){
                 for(int i=0; i<bytes; i++) {
-                    if ((i % 4 == 0 | i % 3 == 0) & data[i] != 1 & data[i] != 0 & endFlag == false) {
+                    if ((i % numByte == 0) & data[i] != 1 & data[i] != 0 & endFlag == false) {
                         if (cursorMsg == 8) {
                             String str = new String();
                             for (Integer b : arrayList) {
                                 b = b & 0xFF;
-                                str += getBit(b, 0);
+                                str += getBit(b, 0);// TODO numberOfBit
                             }
 //                            System.out.println(str);
                             if(!str.equals("11000110") && endFlag == false){
                                String secret = new String(new BigInteger(str, 2).toByteArray(), "Cp866");//тут был utf-8
-//                                System.out.println("secret letter: " + secret + " | " + str);
                                 secretMsg.append(secret);
                                 cursorMsg = 0;
                                 arrayList.clear();
@@ -61,7 +62,6 @@ public class SRead {
     }
 
     private static int getBit(int data, int position) {
-//        System.out.println(Integer.toBinaryString(data) + " get last bit " + ((data >> position) & 1));
         return (data >> position) & 1;
     }
 
