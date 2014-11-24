@@ -1,4 +1,5 @@
-
+import RWSteg.SRead;
+import RWSteg.SWrite;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -7,38 +8,35 @@ import javafx.stage.Stage;
 
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
+import java.util.Scanner;
 
 public class Main extends Application{
 
     public static void main(String[] args) throws UnsupportedEncodingException {
-//        Scanner scanner = new Scanner(System.in);
+        Scanner scanner = new Scanner(System.in);
 //        String mes = scanner.nextLine();
-//        String str = "";
-//        SWrite sWrite = new SWrite("E:/14 Blue Jean Blues.wav", str);
-//        sWrite.steg();
-//        SRead sRead = new SRead("E:/14 Blue Jean Blues_stego.wav");
-////        sRead.desteg();
-//        System.out.println("\n Скрытое сообщение: \"" + sRead.desteg() + "\"\n");
+        String str = "asddftyghujgfdseftg";
+        SWrite sWrite = new SWrite("E:/Gorillaz-Clint_Eastwood.wav", str, 3, 4);
+        sWrite.steg();
+        SRead sRead = new SRead("E:/Gorillaz-Clint_Eastwood_stego.wav", 3, 4);
+//        sRead.desteg();
+        System.out.println("\n Скрытое сообщение: \"" + sRead.desteg() + "\"\n");
 
-//
+
 //
 //        launch(args);
-
-
-
-        byte b = (byte) 0xca;
-        for(int  i = 0; i < 3;i++){
-            b = (byte) (b & ~(1 << i));
-        }
-
-        for(int i = 0; i < 3; i ++){
-            b^= (1 << i);
-        }
-
-
-
-
-        System.out.println(Integer.toBinaryString(0xca) + " \n" + Integer.toBinaryString(b & 0xff));
+//
+//
+//
+//        byte b = (byte) 0xca;
+//        for(int  i = 0; i < 3;i++){
+//            b = (byte) (b & ~(1 << i));
+//        }
+//
+//        for(int i = 0; i < 3; i ++){
+//            b^= (1 << i);
+//        }
+//        System.out.println(Integer.toBinaryString(0xca) + " \n" + Integer.toBinaryString(b & 0xff));
     }
 
 

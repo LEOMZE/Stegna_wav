@@ -10,10 +10,12 @@ import java.util.ArrayList;
 public class SRead {
     private String filePath;
     private int numByte;
+    private int numberOfBit;
 
-    public SRead(String filePath , int numByte){
+    public SRead(String filePath , int numberOfBit, int numByte){
         this.filePath = filePath;
         this.numByte = numByte;
+        this.numberOfBit = numberOfBit;
     }
 
     public String desteg(){
@@ -35,9 +37,12 @@ public class SRead {
                             String str = new String();
                             for (Integer b : arrayList) {
                                 b = b & 0xFF;
-                                str += getBit(b, 0);// TODO numberOfBit
+                                for(int j = 0; j < numberOfBit;j++){
+                                    str += getBit(b, j);// TODO numberOfBit
+                                }
+
                             }
-//                            System.out.println(str);
+                            System.out.println(str);
                             if(!str.equals("11000110") && endFlag == false){
                                String secret = new String(new BigInteger(str, 2).toByteArray(), "Cp866");//тут был utf-8
                                 secretMsg.append(secret);

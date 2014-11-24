@@ -1,11 +1,15 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.scene.image.*?>
+<?import java.lang.*?>
+<?import javafx.scene.chart.*?>
 <?import javafx.geometry.*?>
 <?import javafx.scene.chart.LineChart?>
 <?import javafx.scene.chart.NumberAxis?>
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
-<GridPane fx:id="gridPane"  maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="UI.StegUIController">
+
+<GridPane fx:id="gridPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="UI.StegUIController">
   <columnConstraints>
     <ColumnConstraints hgrow="SOMETIMES" maxWidth="344.0" minWidth="10.0" prefWidth="285.0" />
     <ColumnConstraints hgrow="SOMETIMES" maxWidth="337.0" minWidth="10.0" prefWidth="315.0" />
@@ -22,27 +26,52 @@
           <yAxis><NumberAxis label="Values for Y-Axis" lowerBound="0" tickUnit="10" upperBound="256" /></yAxis>
 
       </LineChart>
-      <Button mnemonicParsing="false" text="Steg" GridPane.columnIndex="1" GridPane.halignment="RIGHT" GridPane.rowIndex="1" GridPane.valignment="BOTTOM">
+      <Button mnemonicParsing="false" onAction="#btnSteg" text="Steg" GridPane.columnIndex="1" GridPane.halignment="RIGHT" GridPane.rowIndex="1" GridPane.valignment="BOTTOM">
          <GridPane.margin>
-            <Insets bottom="30.0" left="15.0" right="15.0" top="15.0" />
+            <Insets bottom="30.0" left="15.0" right="75.0" top="15.0" />
          </GridPane.margin>
       </Button>
       <Button fx:id="btnFile" mnemonicParsing="false" onAction="#btnFile" text="Choose file" GridPane.columnIndex="1" GridPane.halignment="RIGHT" GridPane.rowIndex="1" GridPane.valignment="BOTTOM">
          <GridPane.margin>
-            <Insets bottom="30.0" left="15.0" right="65.0" top="15.0" />
+            <Insets bottom="30.0" left="15.0" right="122.0" top="15.0" />
          </GridPane.margin>
       </Button>
-      <Slider fx:id="slider" blockIncrement="7.0" majorTickUnit="7.0" max="7.0" showTickLabels="true" showTickMarks="true" GridPane.rowIndex="1" GridPane.valignment="TOP">
+      <Slider fx:id="slider" blockIncrement="7.0" majorTickUnit="7.0" max="7.0" showTickLabels="true" showTickMarks="true" GridPane.valignment="TOP">
          <GridPane.margin>
             <Insets left="20.0" right="130.0" top="30.0" />
          </GridPane.margin></Slider>
-      <Label fx:id="bib" text="Bit in Byte ( 0 )" GridPane.rowIndex="1" GridPane.valignment="TOP">
+      <Label fx:id="bib" text="Bit in Byte ( 0 )" GridPane.valignment="TOP">
          <GridPane.margin>
             <Insets left="20.0" top="10.0" />
          </GridPane.margin></Label>
       <Label fx:id="filePath" GridPane.columnIndex="1" GridPane.rowIndex="1" GridPane.valignment="BOTTOM">
          <GridPane.margin>
             <Insets bottom="10.0" left="10.0" />
+         </GridPane.margin>
+      </Label>
+      <ChoiceBox fx:id="choiceBox" prefHeight="25.0" prefWidth="28.0">
+         <GridPane.margin>
+            <Insets left="105.0" top="30.0" />
+         </GridPane.margin>
+      </ChoiceBox>
+      <Label fx:id="choiceLabel" text="Every _ byte: ">
+         <GridPane.margin>
+            <Insets left="20.0" top="30.0" />
+         </GridPane.margin>
+      </Label>
+      <TextArea fx:id="msgArea" prefHeight="0.0" prefWidth="295.0" GridPane.columnSpan="2" GridPane.rowSpan="2">
+         <GridPane.margin>
+            <Insets bottom="70.0" left="170.0" right="10.0" top="20.0" />
+         </GridPane.margin>
+      </TextArea>
+      <Button fx:id="destegBtn" mnemonicParsing="false" text="Desteg" GridPane.columnIndex="1" GridPane.halignment="RIGHT" GridPane.rowIndex="1" GridPane.valignment="BOTTOM">
+         <GridPane.margin>
+            <Insets bottom="30.0" left="15.0" right="15.0" top="15.0" />
+         </GridPane.margin>
+      </Button>
+      <Label fx:id="msgLthLabel" GridPane.halignment="CENTER" GridPane.rowIndex="1" GridPane.valignment="CENTER">
+         <GridPane.margin>
+            <Insets left="155.0" top="50.0" />
          </GridPane.margin>
       </Label>
    </children>

@@ -1,7 +1,6 @@
 package RWSteg;
 
 import java.io.*;
-import java.util.ArrayList;
 
 public class SWrite {
 
@@ -41,12 +40,29 @@ public class SWrite {
                             c_data[i] = (byte) unsigned;
                         } else {
                             if(cursorMsg < binMsg.length()) {//TODO right there FOR with bit
-                                if(Character.getNumericValue(binMsg.charAt(cursorMsg)) == getBit(unsigned, 0/*numberOfBit*/)) {
-                                    c_data[i] = unsigned;
-                                } else{
-                                    c_data[i] = unsigned ^ (1 << 0);
+
+                                for(int j = 0; j < numberOfBit; j++){
+                                    unsigned = (byte) (unsigned & ~(1 << j));
                                 }
-                                cursorMsg++;
+
+                                for(int j = 0; j < numberOfBit; j ++){
+                                    if(cursorMsg < binMsg.length()){
+                                        unsigned ^= Character.getNumericValue(binMsg.charAt(cursorMsg)) << j;
+                                    }
+                                    cursorMsg++;
+                                }
+
+                                c_data[i] = unsigned;
+//                                if(Character.getNumericValue(binMsg.charAt(cursorMsg)) == getBit(unsigned, 0/*numberOfBit*/)) {
+//                                    c_data[i] = unsigned;
+//                                } else{
+//                                    c_data[i] = unsigned ^ (1 << 0);
+//                                }
+//                                cursorMsg++;
+
+
+
+
                             } else {
                                 c_data[i] = unsigned;
                             }
@@ -74,8 +90,12 @@ public class SWrite {
     private static String msgToBit(String msg){
 
         try {
+
+            msg = /*Integer.toHexString(msg.getBytes().length*8)*/"0123456789" + msg;
+            System.out.println(msg);
             byte[] bytes = msg.getBytes("Cp866");
             StringBuilder binary = new StringBuilder();
+//            binary.append(Integer.toBinaryString(msg.getBytes("Cp866").length) + "11000110");
             for (byte b : bytes)
             {
                 int val = b;
@@ -86,7 +106,7 @@ public class SWrite {
                 }
                 // binary.append(' ');
             }
-            return binary.toString() + "11000110";
+            return binary.toString()/* + "11000110"*/;
         } catch (UnsupportedEncodingException e) {
             e.printStackTrace();
         }
@@ -95,34 +115,9 @@ public class SWrite {
     }
 
     private static int getBit(int data, int position) {
-//        System.out.println(Integer.toBinaryString(data) + " get last bit " + ((data >> position) & 1));
         return (data >> position) & 1;
     }
 
-    public ArrayList<Integer> getDots(String filePath){
-        int bytes, unsigned;
-        ArrayList<Integer> dots = new ArrayList<Integer>();
-        try {
-
-            FileInputStream s = new FileInputStream(filePath);
-            BufferedInputStream b = new BufferedInputStream(s);
-            byte[] data = new byte[128];
-            b.skip(59);
-            while ((bytes = b.read(data)) > 0) {
-
-                for (int i =0; i < bytes; i += 4) {
-                    int left = (data[i] & 0xff) | (data[i + 1] << 8);
-                    int right = (data[i + 2] & 0xff) | (data[i + 3] << 8);
-                    dots.add(left);
-                }
-            }
-//            b.read(data);
-            b.close();
-        } catch(Exception e) {
-            e.printStackTrace();
-        }
-        return dots;
-    }
 
 }
 
