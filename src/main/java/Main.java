@@ -15,7 +15,7 @@ public class Main extends Application{
     public static void main(String[] args) throws UnsupportedEncodingException {
         Scanner scanner = new Scanner(System.in);
 //        String mes = scanner.nextLine();
-        String str = "asddftyghujgfdseftg";
+        String str = "asddftyghujgfdseftgasdfghjkljhgfdsasdfghjkhgfdsawdefrgthyj";
         SWrite sWrite = new SWrite("E:/Gorillaz-Clint_Eastwood.wav", str, 3, 4);
         sWrite.steg();
         SRead sRead = new SRead("E:/Gorillaz-Clint_Eastwood_stego.wav", 3, 4);
@@ -25,7 +25,7 @@ public class Main extends Application{
 
 //
 //        launch(args);
-//
+////
 //
 //
 //        byte b = (byte) 0xca;
@@ -47,8 +47,8 @@ public class Main extends Application{
 
             Parent root = FXMLLoader.load(getClass().getClassLoader().getResource("scene.fxml"));
             primaryStage.setTitle("WAV_STEGA APP v0.1");
-            primaryStage.setWidth(550);
-            primaryStage.setHeight(550);
+            primaryStage.setWidth(600);
+            primaryStage.setHeight(430);
             primaryStage.setResizable(false);
             root.getStylesheets().add("chart_style.css");
             primaryStage.setScene(new Scene(root));

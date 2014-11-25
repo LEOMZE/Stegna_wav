@@ -9,18 +9,18 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
-<GridPane fx:id="gridPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="UI.StegUIController">
+<GridPane fx:id="gridPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="430.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="UI.StegUIController">
   <columnConstraints>
     <ColumnConstraints hgrow="SOMETIMES" maxWidth="344.0" minWidth="10.0" prefWidth="285.0" />
     <ColumnConstraints hgrow="SOMETIMES" maxWidth="337.0" minWidth="10.0" prefWidth="315.0" />
   </columnConstraints>
   <rowConstraints>
-    <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-    <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-    <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+    <RowConstraints maxHeight="227.0" minHeight="10.0" prefHeight="226.0" vgrow="SOMETIMES" />
+    <RowConstraints maxHeight="128.0" minHeight="10.0" prefHeight="48.0" vgrow="SOMETIMES" />
+    <RowConstraints maxHeight="177.0" minHeight="10.0" prefHeight="156.0" vgrow="SOMETIMES" />
   </rowConstraints>
    <children>
-      <LineChart fx:id="lineChart" GridPane.columnSpan="2" GridPane.rowIndex="2">
+      <LineChart fx:id="lineChart" prefHeight="149.0" prefWidth="600.0" GridPane.columnSpan="2" GridPane.rowIndex="2">
 
           <xAxis><NumberAxis label="Values for X-Axis" lowerBound="0" tickUnit="10" upperBound="5000" /></xAxis>
           <yAxis><NumberAxis label="Values for Y-Axis" lowerBound="0" tickUnit="10" upperBound="256" /></yAxis>
@@ -28,51 +28,73 @@
       </LineChart>
       <Button mnemonicParsing="false" onAction="#btnSteg" text="Steg" GridPane.columnIndex="1" GridPane.halignment="RIGHT" GridPane.rowIndex="1" GridPane.valignment="BOTTOM">
          <GridPane.margin>
-            <Insets bottom="30.0" left="15.0" right="75.0" top="15.0" />
+            <Insets bottom="20.0" left="15.0" right="75.0" top="15.0" />
          </GridPane.margin>
       </Button>
       <Button fx:id="btnFile" mnemonicParsing="false" onAction="#btnFile" text="Choose file" GridPane.columnIndex="1" GridPane.halignment="RIGHT" GridPane.rowIndex="1" GridPane.valignment="BOTTOM">
          <GridPane.margin>
-            <Insets bottom="30.0" left="15.0" right="122.0" top="15.0" />
+            <Insets bottom="20.0" left="15.0" right="122.0" top="15.0" />
          </GridPane.margin>
       </Button>
-      <Slider fx:id="slider" blockIncrement="7.0" majorTickUnit="7.0" max="7.0" showTickLabels="true" showTickMarks="true" GridPane.valignment="TOP">
+      <Slider fx:id="bitSlider" blockIncrement="7" majorTickUnit="7" max="7" minorTickCount="7" showTickLabels="true" showTickMarks="true" value="0" GridPane.valignment="TOP">
          <GridPane.margin>
             <Insets left="20.0" right="130.0" top="30.0" />
-         </GridPane.margin></Slider>
+         </GridPane.margin>
+      </Slider>
       <Label fx:id="bib" text="Bit in Byte ( 0 )" GridPane.valignment="TOP">
          <GridPane.margin>
             <Insets left="20.0" top="10.0" />
          </GridPane.margin></Label>
       <Label fx:id="filePath" GridPane.columnIndex="1" GridPane.rowIndex="1" GridPane.valignment="BOTTOM">
          <GridPane.margin>
-            <Insets bottom="10.0" left="10.0" />
+            <Insets left="10.0" />
          </GridPane.margin>
       </Label>
-      <ChoiceBox fx:id="choiceBox" prefHeight="25.0" prefWidth="28.0">
-         <GridPane.margin>
-            <Insets left="105.0" top="30.0" />
-         </GridPane.margin>
-      </ChoiceBox>
       <Label fx:id="choiceLabel" text="Every _ byte: ">
          <GridPane.margin>
-            <Insets left="20.0" top="30.0" />
+            <Insets bottom="50.0" left="20.0" />
          </GridPane.margin>
       </Label>
-      <TextArea fx:id="msgArea" prefHeight="0.0" prefWidth="295.0" GridPane.columnSpan="2" GridPane.rowSpan="2">
+      <Button fx:id="destegBtn" mnemonicParsing="false" onAction="#btnDesteg" text="Desteg" GridPane.columnIndex="1" GridPane.halignment="RIGHT" GridPane.rowIndex="1" GridPane.valignment="BOTTOM">
          <GridPane.margin>
-            <Insets bottom="70.0" left="170.0" right="10.0" top="20.0" />
-         </GridPane.margin>
-      </TextArea>
-      <Button fx:id="destegBtn" mnemonicParsing="false" text="Desteg" GridPane.columnIndex="1" GridPane.halignment="RIGHT" GridPane.rowIndex="1" GridPane.valignment="BOTTOM">
-         <GridPane.margin>
-            <Insets bottom="30.0" left="15.0" right="15.0" top="15.0" />
+            <Insets bottom="20.0" left="15.0" right="15.0" top="15.0" />
          </GridPane.margin>
       </Button>
-      <Label fx:id="msgLthLabel" GridPane.halignment="CENTER" GridPane.rowIndex="1" GridPane.valignment="CENTER">
+      <TabPane prefHeight="215.0" prefWidth="420.0" tabClosingPolicy="UNAVAILABLE" GridPane.columnSpan="2" GridPane.rowSpan="2">
+        <tabs>
+          <Tab text="Steg Mtssage">
+            <content>
+              <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="172.0" prefWidth="420.0">
+                     <children>
+                        <TextArea fx:id="msgAreaS" layoutX="3.0" layoutY="6.0" prefHeight="130.0" prefWidth="414.0" />
+                        <Label fx:id="msgLthLabel" layoutX="4.0" layoutY="140.0" prefHeight="17.0" prefWidth="106.0" text="Byte in text: " />
+                     </children>
+                  </AnchorPane>
+            </content>
+          </Tab>
+          <Tab text="Desteg Message">
+            <content>
+              <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+                     <children>
+                        <TextArea fx:id="msgAreaD" layoutX="3.0" layoutY="6.0" prefHeight="140.0" prefWidth="414.0" />
+                     </children>
+                  </AnchorPane>
+            </content>
+          </Tab>
+        </tabs>
          <GridPane.margin>
-            <Insets left="155.0" top="50.0" />
+            <Insets bottom="65.0" left="180.0" />
          </GridPane.margin>
-      </Label>
+      </TabPane>
+      <Slider fx:id="byteSlider" blockIncrement="5" majorTickUnit="5" max="5" min="1" minorTickCount="5" showTickLabels="true" showTickMarks="true" value="1.0">
+         <GridPane.margin>
+            <Insets left="20.0" right="130.0" top="10.0" />
+         </GridPane.margin>
+      </Slider>
+      <ProgressIndicator fx:id="progressInd" maxHeight="50.0" maxWidth="50.0" progress="0.0" GridPane.halignment="CENTER" GridPane.valignment="BOTTOM">
+         <GridPane.margin>
+            <Insets bottom="20.0" right="100.0" />
+         </GridPane.margin>
+      </ProgressIndicator>
    </children>
 </GridPane>

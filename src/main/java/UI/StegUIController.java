@@ -26,7 +26,7 @@ public class StegUIController implements Initializable {
     private GridPane gridPane;
 
     @FXML
-    private Slider slider;
+    private Slider bitSlider;
 
     @FXML
     private Label bib;
@@ -38,7 +38,7 @@ public class StegUIController implements Initializable {
     private LineChart<Number, Double> lineChart;
 
     @FXML
-    ChoiceBox<Number> choiceBox;
+    Slider byteSlider;
 
     @FXML
     Label choiceLabel;
@@ -47,45 +47,50 @@ public class StegUIController implements Initializable {
     Label msgLthLabel;
 
     @FXML
-    TextArea msgArea;
+    TextArea msgAreaS;
 
-
-
-
+    @FXML
+    ProgressIndicator progressInd;
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
-        slider.setMax(7);
-        slider.setMin(0);
-        slider.setShowTickLabels(true);
-        slider.setShowTickMarks(true);
-        msgArea.setWrapText(true);
-        choiceBox.setItems(FXCollections.observableArrayList((Number) 1, 2, 3, 4, 5));
-        choiceBox.setTooltip(new Tooltip("Select the byte stride"));
-        choiceBox.getSelectionModel();
-        bib.setText("Bit in Byte (" + (int)slider.getValue() + ")");
+        bitSlider.setMax(7);
+        bitSlider.setMin(0);
+        bitSlider.setShowTickLabels(true);
+        bitSlider.setShowTickMarks(true);
+
+        msgAreaS.setWrapText(true);
+
+        byteSlider.setMax(5);
+        byteSlider.setMin(1);
+        byteSlider.setShowTickLabels(true);
+        byteSlider.setShowTickMarks(true);
+        byteSlider.setTooltip(new Tooltip("Select the byte stride"));
+
+        progressInd.getStyleClass().add("progress-indicator_hide");
+
+        bib.setText("Bit in Byte (" + (int) bitSlider.getValue() + ")");
         lineChart.getStyleClass().add("thick-chart");
         lineChart.setCreateSymbols(false);
 
-        slider.valueProperty().addListener(new ChangeListener<Number>() {
+        bitSlider.valueProperty().addListener(new ChangeListener<Number>() {
             @Override
             public void changed(ObservableValue<? extends Number> observableValue, Number number, Number number2) {
-                bib.setText("Bit in Byte (" + (int) slider.getValue() + ")");
+                bib.setText("Bit in Byte (" + (int) bitSlider.getValue() + ")");
             }
         });
 
-        choiceBox.getSelectionModel().selectedIndexProperty().addListener(new ChangeListener<Number>() {
+        byteSlider.valueProperty().addListener(new ChangeListener<Number>() {
             @Override
             public void changed(ObservableValue<? extends Number> observableValue, Number number, Number number2) {
-                choiceLabel.setText("Every " + (number2.intValue() + 1) + " byte: ");
-                System.out.println(choiceBox.getValue());
+                choiceLabel.setText("Every " + (int) byteSlider.getValue() + " byte: ");
             }
         });
 
-        msgArea.textProperty().addListener(new ChangeListener<String>() {
+        msgAreaS.textProperty().addListener(new ChangeListener<String>() {
             @Override
             public void changed(ObservableValue<? extends String> observableValue, String s, String s2) {
-                msgLthLabel.setText("Byte in text: " + msgArea.getText().getBytes().length);
+                msgLthLabel.setText("Byte in text: " + msgAreaS.getText().getBytes().length);
             }
         });
 
@@ -95,7 +100,7 @@ public class StegUIController implements Initializable {
 
     @FXML
     private void btnFile(ActionEvent event){
-        System.out.println(choiceBox.getValue() + " " +  choiceBox.getValue().intValue());
+        System.out.println(byteSlider.getValue());
 
         System.out.println("Click!");
         FileChooser fileChooser = new FileChooser();
@@ -104,9 +109,10 @@ public class StegUIController implements Initializable {
         File file = fileChooser.showOpenDialog(gridPane.getScene().getWindow());
         String str = file.getAbsolutePath();
         filePath.setText(str);
+        filePath.setTooltip(new Tooltip(str));
         long fileLength;
-        if(choiceBox.getValue().intValue() != 0){
-            fileLength = (file.length() - 59) / choiceBox.getValue().intValue();
+        if(byteSlider.getValue() != 0){
+            fileLength = (file.length() - 59) / (int)byteSlider.getValue();
         } else {
             fileLength = (file.length() - 59) / 1;
         }
@@ -140,13 +146,17 @@ public class StegUIController implements Initializable {
     private void btnSteg(ActionEvent event){
 
         System.out.println("Click!");
-   //TODO     new SWrite(filePath.getText(), msgArea.getText(), (int) slider.getValue() , choiceBox.getValue().intValue());
+        progressInd.getStyleClass().clear();
+        progressInd.getStyleClass().add("progress-indicator_show");
+   //TODO     new SWrite(filePath.getText(), msgArea.getText(), (int) bitSlider.getValue() , choiceBox.getValue().intValue());
 
     }
 
     @FXML
     private void btnDesteg(ActionEvent event){
         System.out.println("Click!");
+        progressInd.getStyleClass().clear();
+        progressInd.getStyleClass().add("progress-indicator_hide");
    //TODO     new SRead(filePath.getText(), choiceBox.getValue().intValue());
     }
 

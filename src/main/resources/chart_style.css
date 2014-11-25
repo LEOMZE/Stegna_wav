@@ -7,3 +7,7 @@
 
 .default-color0.chart-line-symbol { -fx-background-color: #66e931, white; }
 .default-color1.chart-line-symbol { -fx-background-color: #e93920, white; }
+
+
+.progress-indicator_hide{visibility: hidden}
+.progress-indicator_show{visibility: visible}

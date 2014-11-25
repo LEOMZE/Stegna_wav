@@ -1,6 +1,7 @@
 package RWSteg;
 
 import java.io.*;
+import java.math.BigInteger;
 
 public class SWrite {
 
@@ -39,7 +40,7 @@ public class SWrite {
                         if (data[i] == 0 | data[i] == 1) {//TODO maybe del !7
                             c_data[i] = (byte) unsigned;
                         } else {
-                            if(cursorMsg < binMsg.length()) {//TODO right there FOR with bit
+                            if(cursorMsg < binMsg.length()) {
 
                                 for(int j = 0; j < numberOfBit; j++){
                                     unsigned = (byte) (unsigned & ~(1 << j));
@@ -59,10 +60,6 @@ public class SWrite {
 //                                    c_data[i] = unsigned ^ (1 << 0);
 //                                }
 //                                cursorMsg++;
-
-
-
-
                             } else {
                                 c_data[i] = unsigned;
                             }
@@ -90,12 +87,12 @@ public class SWrite {
     private static String msgToBit(String msg){
 
         try {
-
-            msg = /*Integer.toHexString(msg.getBytes().length*8)*/"0123456789" + msg;
+            String msgLength = Integer.toHexString(msg.getBytes().length * 8);
+            System.out.println(msg + "\n" +  new BigInteger(msgLength, 16));
+            msg = repeat("0", 8 - msgLength.length()) + msgLength + msg;
             System.out.println(msg);
             byte[] bytes = msg.getBytes("Cp866");
             StringBuilder binary = new StringBuilder();
-//            binary.append(Integer.toBinaryString(msg.getBytes("Cp866").length) + "11000110");
             for (byte b : bytes)
             {
                 int val = b;
@@ -104,9 +101,9 @@ public class SWrite {
                     binary.append((val & 128) == 0 ? 0 : 1);
                     val <<= 1;
                 }
-                // binary.append(' ');
             }
-            return binary.toString()/* + "11000110"*/;
+
+            return binary.toString();
         } catch (UnsupportedEncodingException e) {
             e.printStackTrace();
         }
@@ -118,6 +115,14 @@ public class SWrite {
         return (data >> position) & 1;
     }
 
+
+    private static String repeat(String string, int times) {
+        StringBuilder out = new StringBuilder();
+        while (times-- > 0) {
+            out.append(string);
+        }
+        return out.toString();
+    }
 
 }
 
