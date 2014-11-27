@@ -139,7 +139,7 @@ public class StegUIController implements Initializable {
     @FXML
     private void btnFile(ActionEvent event){
         System.out.println(byteSlider.getValue());
-
+        
         System.out.println("Click!");
         FileChooser fileChooser = new FileChooser();
         fileChooser.setTitle("Open Resource File");
@@ -155,7 +155,7 @@ public class StegUIController implements Initializable {
         }
 
         System.out.println(length);
-        if(str.length() != 0){
+        if(filePath.getText().matches(".*\\.(wav)")){
             ObservableList<XYChart.Series<Number, Double>> lineChartData = FXCollections.observableArrayList();
             ArrayList<Double> d;
 
