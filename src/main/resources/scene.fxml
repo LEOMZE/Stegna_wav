@@ -102,12 +102,12 @@
             <Insets bottom="20.0" left="20.0" right="20.0" top="15.0" />
          </GridPane.margin>
       </ProgressBar>
-      <Button fx:id="playM"  onAction="#playMBtn" ellipsisString="" mnemonicParsing="false" text="Play">
+      <Button fx:id="playM" ellipsisString="" mnemonicParsing="false" onAction="#playMBtn" text="Play">
          <GridPane.margin>
-            <Insets left="50.0" top="120.0" />
+            <Insets left="40.0" top="120.0" />
          </GridPane.margin>
       </Button>
-      <Button fx:id="stopM" onAction="#stopMBtn" mnemonicParsing="false" text="Stop">
+      <Button fx:id="stopM" mnemonicParsing="false" onAction="#stopMBtn" text="Stop">
          <GridPane.margin>
             <Insets left="95.0" top="120.0" />
          </GridPane.margin>

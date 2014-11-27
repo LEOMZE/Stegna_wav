@@ -139,7 +139,7 @@ public class StegUIController implements Initializable {
     @FXML
     private void btnFile(ActionEvent event){
         System.out.println(byteSlider.getValue());
-        
+
         System.out.println("Click!");
         FileChooser fileChooser = new FileChooser();
         fileChooser.setTitle("Open Resource File");
