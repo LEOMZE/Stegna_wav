@@ -1,5 +1,3 @@
-import RWSteg.SRead;
-import RWSteg.SWrite;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -8,23 +6,25 @@ import javafx.stage.Stage;
 
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
-import java.util.Scanner;
 
 public class Main extends Application{
 
-    public static void main(String[] args) throws UnsupportedEncodingException {
-        Scanner scanner = new Scanner(System.in);
-//        String mes = scanner.nextLine();
-        String str = "asddftyghujgfdseftgasdfghjkljhgfdsasdfghjkhgfdsawdefrgthyj";
-        SWrite sWrite = new SWrite("E:/Gorillaz-Clint_Eastwood.wav", str, 3, 4);
-        sWrite.steg();
-        SRead sRead = new SRead("E:/Gorillaz-Clint_Eastwood_stego.wav", 3, 4);
-//        sRead.desteg();
-        System.out.println("\n Скрытое сообщение: \"" + sRead.desteg() + "\"\n");
+    public static void main(final String[] args) throws UnsupportedEncodingException {
+//        Scanner scanner = new Scanner(System.in);
+////        String mes = scanner.nextLine();
+//        String str = "Спасибо Олесе, за хорошее настроение :)";
+//        byte[] bytes = str.getBytes();
+//        SWrite sWrite = new SWrite("E:/Gorillaz-Clint_Eastwood.wav", str, 0, 4);
+//        sWrite.run();
+//        SRead sRead = new SRead("E:/Gorillaz-Clint_Eastwood_stego.wav", 0, 4);
+////        sRead.desteg();
+//        System.out.println("\n Скрытое сообщение: \"" + sRead.desteg() + "\"\n");
 
 
 //
-//        launch(args);
+
+                launch(args);
+                System.exit(0);
 ////
 //
 //

@@ -31,9 +31,9 @@
             <Insets bottom="20.0" left="15.0" right="75.0" top="15.0" />
          </GridPane.margin>
       </Button>
-      <Button fx:id="btnFile" mnemonicParsing="false" onAction="#btnFile" text="Choose file" GridPane.columnIndex="1" GridPane.halignment="RIGHT" GridPane.rowIndex="1" GridPane.valignment="BOTTOM">
+      <Button fx:id="btnFile" mnemonicParsing="false" onAction="#btnFile" text="Choose file" GridPane.columnIndex="1" GridPane.halignment="LEFT" GridPane.rowIndex="1" GridPane.valignment="BOTTOM">
          <GridPane.margin>
-            <Insets bottom="20.0" left="15.0" right="122.0" top="15.0" />
+            <Insets bottom="20.0" left="45.0" top="15.0" />
          </GridPane.margin>
       </Button>
       <Slider fx:id="bitSlider" blockIncrement="7" majorTickUnit="7" max="7" minorTickCount="7" showTickLabels="true" showTickMarks="true" value="0" GridPane.valignment="TOP">
@@ -52,7 +52,7 @@
       </Label>
       <Label fx:id="choiceLabel" text="Every _ byte: ">
          <GridPane.margin>
-            <Insets bottom="50.0" left="20.0" />
+            <Insets bottom="65.0" left="20.0" />
          </GridPane.margin>
       </Label>
       <Button fx:id="destegBtn" mnemonicParsing="false" onAction="#btnDesteg" text="Desteg" GridPane.columnIndex="1" GridPane.halignment="RIGHT" GridPane.rowIndex="1" GridPane.valignment="BOTTOM">
@@ -67,7 +67,8 @@
               <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="172.0" prefWidth="420.0">
                      <children>
                         <TextArea fx:id="msgAreaS" layoutX="3.0" layoutY="6.0" prefHeight="130.0" prefWidth="414.0" />
-                        <Label fx:id="msgLthLabel" layoutX="4.0" layoutY="140.0" prefHeight="17.0" prefWidth="106.0" text="Byte in text: " />
+                        <Label fx:id="msgLthLabel" layoutX="4.0" layoutY="140.0" prefHeight="17.0" prefWidth="176.0" text="Byte in text: " />
+                        <Label fx:id="allowableVal" layoutX="186.0" layoutY="140.0" text="Allowable value:" />
                      </children>
                   </AnchorPane>
             </content>
@@ -86,15 +87,30 @@
             <Insets bottom="65.0" left="180.0" />
          </GridPane.margin>
       </TabPane>
-      <Slider fx:id="byteSlider" blockIncrement="5" majorTickUnit="5" max="5" min="1" minorTickCount="5" showTickLabels="true" showTickMarks="true" value="1.0">
+      <Slider fx:id="byteSlider" majorTickUnit="1.0" max="10.0" min="1" minorTickCount="10" showTickLabels="true" showTickMarks="true" value="1.0">
          <GridPane.margin>
-            <Insets left="20.0" right="130.0" top="10.0" />
+            <Insets bottom="10.0" left="20.0" right="130.0" top="10.0" />
          </GridPane.margin>
       </Slider>
-      <ProgressIndicator fx:id="progressInd" maxHeight="50.0" maxWidth="50.0" progress="0.0" GridPane.halignment="CENTER" GridPane.valignment="BOTTOM">
+      <Button fx:id="convert" mnemonicParsing="false" onAction="#btnConvert" text="Convert" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.rowIndex="1" GridPane.valignment="BOTTOM">
          <GridPane.margin>
-            <Insets bottom="20.0" right="100.0" />
+            <Insets bottom="20.0" left="5.0" />
          </GridPane.margin>
-      </ProgressIndicator>
+      </Button>
+      <ProgressBar fx:id="progressInd" prefHeight="18.0" prefWidth="250.0" progress="0.0" GridPane.halignment="RIGHT" GridPane.rowIndex="1" GridPane.valignment="BOTTOM">
+         <GridPane.margin>
+            <Insets bottom="20.0" left="20.0" right="20.0" top="15.0" />
+         </GridPane.margin>
+      </ProgressBar>
+      <Button fx:id="playM"  onAction="#playMBtn" ellipsisString="" mnemonicParsing="false" text="Play">
+         <GridPane.margin>
+            <Insets left="50.0" top="120.0" />
+         </GridPane.margin>
+      </Button>
+      <Button fx:id="stopM" onAction="#stopMBtn" mnemonicParsing="false" text="Stop">
+         <GridPane.margin>
+            <Insets left="95.0" top="120.0" />
+         </GridPane.margin>
+      </Button>
    </children>
 </GridPane>

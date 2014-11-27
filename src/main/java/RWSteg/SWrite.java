@@ -1,24 +1,22 @@
 package RWSteg;
 
 import java.io.*;
-import java.math.BigInteger;
 
-public class SWrite {
+public class SWrite implements Runnable{
 
     private String filePath;
     private String message;
     private int numberOfBit;
     private int numByte;
 
-
     public SWrite(String filePath, String message, int numberOfBit , int numByte){
         this.filePath = filePath;
         this.message = message;
         this.numberOfBit = numberOfBit;
         this.numByte = numByte;
-    }
+    }//конструктор класса
 
-    public void steg(){
+    private void steg(){
         try {
             FileInputStream fileInputStream = new FileInputStream(filePath);
             BufferedInputStream bufferedInputStream = new BufferedInputStream(fileInputStream);
@@ -37,33 +35,22 @@ public class SWrite {
                 for(int i=0; i < bytes; i++) {
                     unsigned = data[i] & 0xFF;
                     if(i % numByte == 0){
-                        if (data[i] == 0 | data[i] == 1) {//TODO maybe del !7
-                            c_data[i] = (byte) unsigned;
-                        } else {
                             if(cursorMsg < binMsg.length()) {
-
-                                for(int j = 0; j < numberOfBit; j++){
+                                for(int j = 0; j <= numberOfBit; j++){
                                     unsigned = (byte) (unsigned & ~(1 << j));
                                 }
-
-                                for(int j = 0; j < numberOfBit; j ++){
+                                for(int j = 0; j <= numberOfBit; j ++){
                                     if(cursorMsg < binMsg.length()){
                                         unsigned ^= Character.getNumericValue(binMsg.charAt(cursorMsg)) << j;
                                     }
                                     cursorMsg++;
                                 }
-
                                 c_data[i] = unsigned;
-//                                if(Character.getNumericValue(binMsg.charAt(cursorMsg)) == getBit(unsigned, 0/*numberOfBit*/)) {
-//                                    c_data[i] = unsigned;
-//                                } else{
-//                                    c_data[i] = unsigned ^ (1 << 0);
-//                                }
-//                                cursorMsg++;
+
                             } else {
+//                                System.out.println("finish write!");
                                 c_data[i] = unsigned;
                             }
-                        }
                     }else{
                         c_data[i] = data[i];
                     }
@@ -82,13 +69,12 @@ public class SWrite {
         } catch (IOException e) {
             e.printStackTrace();
         }
-    }
+    }//основной алгоритм
 
     private static String msgToBit(String msg){
 
         try {
-            String msgLength = Integer.toHexString(msg.getBytes().length * 8);
-            System.out.println(msg + "\n" +  new BigInteger(msgLength, 16));
+            String msgLength = Integer.toHexString(msg.getBytes("Cp866").length * 8);
             msg = repeat("0", 8 - msgLength.length()) + msgLength + msg;
             System.out.println(msg);
             byte[] bytes = msg.getBytes("Cp866");
@@ -111,11 +97,6 @@ public class SWrite {
 
     }
 
-    private static int getBit(int data, int position) {
-        return (data >> position) & 1;
-    }
-
-
     private static String repeat(String string, int times) {
         StringBuilder out = new StringBuilder();
         while (times-- > 0) {
@@ -124,6 +105,10 @@ public class SWrite {
         return out.toString();
     }
 
+    @Override
+    public void run() {
+        steg();
+    }
 }
 
 

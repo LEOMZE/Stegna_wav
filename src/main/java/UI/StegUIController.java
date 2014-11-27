@@ -1,7 +1,15 @@
 package UI;
 
 
+import RWSteg.SRead;
+import RWSteg.SWrite;
 import Util.AudioWaveformCreator;
+import com.xuggle.mediatool.IMediaReader;
+import com.xuggle.mediatool.IMediaWriter;
+import com.xuggle.mediatool.MediaListenerAdapter;
+import com.xuggle.mediatool.ToolFactory;
+import com.xuggle.mediatool.event.IAddStreamEvent;
+import com.xuggle.xuggler.IStreamCoder;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
@@ -13,6 +21,8 @@ import javafx.scene.chart.LineChart;
 import javafx.scene.chart.XYChart;
 import javafx.scene.control.*;
 import javafx.scene.layout.GridPane;
+import javafx.scene.media.Media;
+import javafx.scene.media.MediaPlayer;
 import javafx.stage.FileChooser;
 
 import java.io.File;
@@ -44,13 +54,30 @@ public class StegUIController implements Initializable {
     Label choiceLabel;
 
     @FXML
+    Label allowableVal;
+
+    @FXML
     Label msgLthLabel;
 
     @FXML
     TextArea msgAreaS;
+    @FXML
+    TextArea msgAreaD;
 
     @FXML
-    ProgressIndicator progressInd;
+    ProgressBar progressInd;
+
+    @FXML
+    Button convert;
+
+    @FXML
+    Button playM;
+
+    @FXML
+    Button stopM;
+
+    private Media hit;
+    private MediaPlayer mediaPlayer;
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
@@ -60,8 +87,9 @@ public class StegUIController implements Initializable {
         bitSlider.setShowTickMarks(true);
 
         msgAreaS.setWrapText(true);
+        msgAreaD.setWrapText(true);
 
-        byteSlider.setMax(5);
+        byteSlider.setMax(10);
         byteSlider.setMin(1);
         byteSlider.setShowTickLabels(true);
         byteSlider.setShowTickMarks(true);
@@ -77,6 +105,10 @@ public class StegUIController implements Initializable {
             @Override
             public void changed(ObservableValue<? extends Number> observableValue, Number number, Number number2) {
                 bib.setText("Bit in Byte (" + (int) bitSlider.getValue() + ")");
+                if(filePath.getText().length() != 0){
+                    long length = (long )(((new File(filePath.getText()).length() - 59) / (int) ( byteSlider.getValue() + 1)) * (bitSlider.getValue() + 1) / 8);
+                    allowableVal.setText("Allowable value: " + length / 1024 + "Kb / "  + length + " byte");///TODO incorrect
+                }
             }
         });
 
@@ -84,18 +116,24 @@ public class StegUIController implements Initializable {
             @Override
             public void changed(ObservableValue<? extends Number> observableValue, Number number, Number number2) {
                 choiceLabel.setText("Every " + (int) byteSlider.getValue() + " byte: ");
+                if(filePath.getText().length() != 0){
+                    long length = (long )(((new File(filePath.getText()).length() - 59) / (int) byteSlider.getValue() ) * (bitSlider.getValue() + 1) / 8);
+                    allowableVal.setText("Allowable value: " + length /1024 + " Kb / "  + length + " byte");///TODO incorrect
+                }
             }
         });
 
         msgAreaS.textProperty().addListener(new ChangeListener<String>() {
             @Override
             public void changed(ObservableValue<? extends String> observableValue, String s, String s2) {
-                msgLthLabel.setText("Byte in text: " + msgAreaS.getText().getBytes().length);
+                long length = msgAreaS.getText().getBytes().length;
+                msgLthLabel.setText("Byte in text: " + length / 1024 + " Kb / " + length + " byte");
             }
         });
 
-    }
 
+
+    }
 
 
     @FXML
@@ -105,19 +143,18 @@ public class StegUIController implements Initializable {
         System.out.println("Click!");
         FileChooser fileChooser = new FileChooser();
         fileChooser.setTitle("Open Resource File");
-        fileChooser.getExtensionFilters().add(new FileChooser.ExtensionFilter("WAV", "*.wav"));
+        fileChooser.getExtensionFilters().add(new FileChooser.ExtensionFilter("WAV", "*.wav", "MP3", "*.mp3"));
         File file = fileChooser.showOpenDialog(gridPane.getScene().getWindow());
         String str = file.getAbsolutePath();
         filePath.setText(str);
         filePath.setTooltip(new Tooltip(str));
-        long fileLength;
-        if(byteSlider.getValue() != 0){
-            fileLength = (file.length() - 59) / (int)byteSlider.getValue();
-        } else {
-            fileLength = (file.length() - 59) / 1;
+        int length = 0;
+        if(filePath.getText().length() != 0){
+            length = (int )(((new File(filePath.getText()).length()-59) / (int)( byteSlider.getValue() + 1)) * (bitSlider.getValue() + 1) / 8);
+            allowableVal.setText("Allowable value: " + length/1024 + " Kb/ "  + length + " byte");///TODO incorrect
         }
 
-        System.out.println(fileLength);
+        System.out.println(length);
         if(str.length() != 0){
             ObservableList<XYChart.Series<Number, Double>> lineChartData = FXCollections.observableArrayList();
             ArrayList<Double> d;
@@ -143,13 +180,43 @@ public class StegUIController implements Initializable {
     }
 
     @FXML
+    private void btnConvert(ActionEvent event){
+        convertToMP3(new File(filePath.getText()), new File(filePath.getText().substring(0,filePath.getText().indexOf(".")) + ".wav"));
+    }
+
+    @FXML
     private void btnSteg(ActionEvent event){
 
         System.out.println("Click!");
         progressInd.getStyleClass().clear();
         progressInd.getStyleClass().add("progress-indicator_show");
-   //TODO     new SWrite(filePath.getText(), msgArea.getText(), (int) bitSlider.getValue() , choiceBox.getValue().intValue());
 
+        SWrite sWrite = new SWrite(filePath.getText(), msgAreaS.getText(), (int) bitSlider.getValue() ,(int) byteSlider.getValue());
+        final Thread thread = new Thread(sWrite);
+
+        Thread thread1 =  new Thread(new Runnable() {
+            @Override
+            public void run() {
+                File file1 = new File(filePath.getText());
+                thread.start();
+                File file2 = new File(filePath.getText().substring(0,filePath.getText().indexOf(".")) + "_stego.wav");
+                do {
+                    final float i = (float)(file2.length() / (file1.length()/100.0)) * 0.01f ;
+                    try {
+                        Thread.sleep(1000);
+                    } catch (InterruptedException e) {
+                        e.printStackTrace();
+                    }
+                    progressInd.setProgress(i);
+                }while (file1.length() != file2.length());
+
+                progressInd.getStyleClass().clear();
+                progressInd.getStyleClass().add("progress-indicator_hide");
+            }
+        });
+
+
+        thread1.start();
     }
 
     @FXML
@@ -157,7 +224,63 @@ public class StegUIController implements Initializable {
         System.out.println("Click!");
         progressInd.getStyleClass().clear();
         progressInd.getStyleClass().add("progress-indicator_hide");
-   //TODO     new SRead(filePath.getText(), choiceBox.getValue().intValue());
+        ObservableList<XYChart.Series<Number, Double>> lineChartData = FXCollections.observableArrayList();
+        ArrayList<Double> d;
+
+        LineChart.Series<Number, Double> series2 = new LineChart.Series<Number, Double>();
+        series2.setName("Series 2");
+
+
+        d =  new AudioWaveformCreator().createWaveForm(filePath.getText());
+        int j = 0;
+        for(double i = 0.0; i < d.size(); i++){
+            series2.getData().add(new XYChart.Data<Number, Double>(i, d.get(j)));
+            j++;
+        }
+
+
+        lineChartData.add(series2);
+
+        lineChart.getData().add(0, series2);
+        lineChart.createSymbolsProperty();
+
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                msgAreaD.setText(new SRead(filePath.getText(), (int) bitSlider.getValue(), (int) byteSlider.getValue()).desteg());
+            }
+        }).start();
+
+    }
+
+    @FXML
+    private void playMBtn(ActionEvent event){
+        hit = new Media(new File(filePath.getText()).toURI().toString());
+        mediaPlayer = new MediaPlayer(hit);
+        mediaPlayer.play();
+    }
+
+    @FXML
+    private void stopMBtn(ActionEvent event){
+        mediaPlayer.stop();
+    }
+
+    public void convertToMP3(File input, File output/*, int kbps*/) {
+        IMediaReader mediaReader = ToolFactory.makeReader(input.getPath());
+        IMediaWriter mediaWriter = ToolFactory.makeWriter(output.getPath(), mediaReader);
+        mediaReader.addListener(mediaWriter);
+
+        mediaWriter.addListener(new MediaListenerAdapter() {
+            @Override
+            public void onAddStream(IAddStreamEvent event) {
+                IStreamCoder streamCoder = event.getSource().getContainer().getStream(event.getStreamIndex()).getStreamCoder();
+                streamCoder.setFlag(IStreamCoder.Flags.FLAG_QSCALE, false);
+//                streamCoder.setBitRate(kbps);
+//                streamCoder.setBitRateTolerance(0);
+            }
+        });
+
+        while (mediaReader.readPacket() == null);
     }
 
 

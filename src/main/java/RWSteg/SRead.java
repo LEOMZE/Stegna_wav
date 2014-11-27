@@ -18,59 +18,35 @@ public class SRead {
     }
 
     public String desteg(){
-        StringBuilder secretMsg = new StringBuilder();
+        String secret = new String();
         try {
             int bytes;
             byte[] data = new byte[128];
             boolean endFlag = false;
             FileInputStream fileInputStream = new FileInputStream(filePath);
             BufferedInputStream bufferedInputStream = new BufferedInputStream(fileInputStream);
-            bufferedInputStream.mark(128);
+            bufferedInputStream.mark(1);
             long msgLength = getLengthMsg(bufferedInputStream);
             bufferedInputStream.reset();
             bufferedInputStream.skip(59);
             System.out.println("\n\nStart desteg!!!");
             String str = new String();
-            String secret = new String();
+            int tick = 0;
             while((bytes = bufferedInputStream.read(data)) > -1){
                 for(int i=0; i<bytes; i++) {
-                    if ((i % numByte == 0) & data[i] != 1 & data[i] != 0 & endFlag == false) {
-//                        if (cursorMsg == 8) {
-//                            String str = new String();
-//                            for (Integer b : arrayList) {
-//                                b = b & 0xFF;
-//                                for(int j = 0; j < numberOfBit;j++){
-//                                    str += getBit(b, j);
-//                                    arrayOfByte.add((byte) getBit(b, j));
-//                                }
-//
-//                            }
-//                            System.out.println(str);
-//                            if(endFlag == false){
-//                               String secret = new String(new BigInteger(str, 2).toByteArray(), "Cp866");//тут был utf-8
-//
-//                                secretMsg.append(secret);
-//                                cursorMsg = 0;
-//                                arrayList.clear();
-//                            } else {
-//                                endFlag = true;
-//                            }
-//                        }
-//                        arrayList.add((int)(data[i]));
-//                        cursorMsg++;
-                        for(int j = 0; j < numberOfBit; j++){
+                    if ((i % numByte == 0) && endFlag == false) {
+                        for(int j = 0; j <= numberOfBit; j++){
                             str += getBit(data[i], j);
                             if(str.length() == msgLength){
-                                for(int ii = 0; ii < msgLength; ii = ii + 8){
-                                    String s = str.substring(ii , ii + 8);
-                                    secret += new String(new BigInteger(s , 2).toByteArray()/*, "Cp866"*/);
-                                    endFlag = true;
-                                }
+                                System.out.println(str);
+                                secret = new String(new BigInteger(str, 2).toByteArray(), "Cp866");
+                                return secret.substring(8, secret.length());
                             }
                         }
                     }
                 }
             }
+            System.out.println(tick);
             System.out.println(secret);
 
         } catch (FileNotFoundException e) {
@@ -78,7 +54,7 @@ public class SRead {
         } catch (IOException e) {
             e.printStackTrace();
         }
-        return secretMsg.toString();
+        return secret.substring(8, secret.length());
     }
 
     private static int getBit(int data, int position) {
@@ -87,7 +63,7 @@ public class SRead {
 
     private long getLengthMsg(BufferedInputStream bis){
         long length = 0;
-        int msgOfLength = 64 / numberOfBit;
+        int msgOfLength = 64 / (numberOfBit+1);
         int bytes;
         int cursorMsg = 0;
         byte[] data = new byte[128];
@@ -96,8 +72,8 @@ public class SRead {
             bis.skip(59);
             while((bytes = bis.read(data)) > -1){
                 for(int i=0; i < bytes; i++) {
-                    if ((i % numByte == 0) & data[i] != 1 & data[i] != 0) {
-                        for(int j = 0; j < numberOfBit;j++){
+                    if (i % numByte == 0) {
+                        for(int j = 0; j <= numberOfBit; j++){
                             str += getBit(data[i], j);
                         }
                         cursorMsg++;
@@ -118,5 +94,4 @@ public class SRead {
     }
 
 }
-
 

@@ -7,6 +7,12 @@
     <groupId>Music_stegna</groupId>
     <artifactId>Music_stegna</artifactId>
     <version>1.0-SNAPSHOT</version>
+    <repositories>
+        <repository>
+            <id>xuggle repo</id>
+            <url>http://xuggle.googlecode.com/svn/trunk/repo/share/java/</url>
+        </repository>
+    </repositories>
 
     <dependencies>
         <dependency>
@@ -15,6 +21,11 @@
             <version>2.2</version>
             <systemPath>${java.home}/lib/jfxrt.jar</systemPath>
             <scope>system</scope>
+        </dependency>
+        <dependency>
+            <groupId>xuggle</groupId>
+            <artifactId>xuggle-xuggler</artifactId>
+            <version>5.4</version>
         </dependency>
 
     </dependencies>
