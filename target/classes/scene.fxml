@@ -1,5 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.scene.*?>
+<?import javafx.scene.effect.*?>
 <?import javafx.scene.image.*?>
 <?import java.lang.*?>
 <?import javafx.scene.chart.*?>
@@ -101,15 +103,28 @@
          <GridPane.margin>
             <Insets bottom="20.0" left="20.0" right="20.0" top="15.0" />
          </GridPane.margin>
+         <cursor>
+            <Cursor fx:constant="DEFAULT" />
+         </cursor>
       </ProgressBar>
       <Button fx:id="playM" ellipsisString="" mnemonicParsing="false" onAction="#playMBtn" text="Play">
          <GridPane.margin>
-            <Insets left="40.0" top="120.0" />
+            <Insets left="20.0" top="120.0" />
          </GridPane.margin>
       </Button>
       <Button fx:id="stopM" mnemonicParsing="false" onAction="#stopMBtn" text="Stop">
          <GridPane.margin>
-            <Insets left="95.0" top="120.0" />
+            <Insets left="120.0" top="120.0" />
+         </GridPane.margin>
+      </Button>
+      <Label fx:id="prLabel" GridPane.valignment="BOTTOM">
+         <GridPane.margin>
+            <Insets left="20.0" />
+         </GridPane.margin>
+      </Label>
+      <Button fx:id="pauseMBtn" mnemonicParsing="false" onAction="#pauseMBtn" text="Pause">
+         <GridPane.margin>
+            <Insets left="65.0" top="120.0" />
          </GridPane.margin>
       </Button>
    </children>

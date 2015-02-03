@@ -14,7 +14,7 @@ public class SWrite implements Runnable{
         this.message = message;
         this.numberOfBit = numberOfBit;
         this.numByte = numByte;
-    }//конструктор класса
+    }
 
     private void steg(){
         try {
@@ -30,15 +30,27 @@ public class SWrite implements Runnable{
             System.out.println("Start steg! \nMessage \"" + message + "\" to binary: \n" + binMsg);
             int cursorMsg = 0;
             int unsigned;
+
+
+            //get 128 byte
             while ((bytes = bufferedInputStream.read(data)) > 0) {
                 int[] c_data = new int[128];
+
+                //Each byte (128 total= bytes)
                 for(int i=0; i < bytes; i++) {
                     unsigned = data[i] & 0xFF;
+
+                    /* Algorithm Started Here!*/
+
+                    //Each n byte (numByte)
                     if(i % numByte == 0){
+                        //if all bit wrote
                             if(cursorMsg < binMsg.length()) {
+                                //change every m bit
                                 for(int j = 0; j <= numberOfBit; j++){
                                     unsigned = (byte) (unsigned & ~(1 << j));
                                 }
+                                //Write each changed bits
                                 for(int j = 0; j <= numberOfBit; j ++){
                                     if(cursorMsg < binMsg.length()){
                                         unsigned ^= Character.getNumericValue(binMsg.charAt(cursorMsg)) << j;
@@ -46,21 +58,25 @@ public class SWrite implements Runnable{
                                     cursorMsg++;
                                 }
                                 c_data[i] = unsigned;
-
+                            // then just copy
                             } else {
-//                                System.out.println("finish write!");
                                 c_data[i] = unsigned;
                             }
                     }else{
                         c_data[i] = data[i];
                     }
 
+                    /*=======================End============================*/
+
                 }
+
+                //Write to file changed data
                 for(int i = 0; i < c_data.length; i++){
                     outputStream.write(c_data[i]);
                 }
             }
-            System.out.println("\nfinish steg!");
+
+            System.out.println("\nFinish steg!");
             bufferedInputStream.read(data);
             bufferedInputStream.close();
             outputStream.close();
@@ -69,7 +85,7 @@ public class SWrite implements Runnable{
         } catch (IOException e) {
             e.printStackTrace();
         }
-    }//основной алгоритм
+    }
 
     private static String msgToBit(String msg){
 
