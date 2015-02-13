@@ -62,7 +62,6 @@ public class StegUIController implements Initializable {
 
     @FXML
     TextArea msgAreaS;
-    
     @FXML
     TextArea msgAreaD;
 
@@ -81,13 +80,8 @@ public class StegUIController implements Initializable {
     @FXML
     Label prLabel;
 
-    @FXML
-    BarChart<String, Number> barC;
-
     private AudioSpectrumListener audioSpectrumListener;
-    private XYChart.Data<String, Number>[] series1Data;
 
-    private Media hit;
     private MediaPlayer mediaPlayer;
 
     @Override
@@ -240,7 +234,6 @@ public class StegUIController implements Initializable {
         thread1.start();
     }
 
-
     @FXML
     private void btnDesteg(ActionEvent event){
         System.out.println("Click!");
@@ -307,7 +300,6 @@ public class StegUIController implements Initializable {
         mediaPlayer = getAudioMediaPlayer();
         mediaPlayer.play();
         mediaPlayer.setAudioSpectrumListener(audioSpectrumListener);
-
     }
 
     @FXML
@@ -334,8 +326,6 @@ public class StegUIController implements Initializable {
                 streamCoder.setFlag(IStreamCoder.Flags.FLAG_QSCALE, false);
             }
         });
-
-        while (mediaReader.readPacket() == null);
     }
 
     private MediaPlayer getAudioMediaPlayer() {

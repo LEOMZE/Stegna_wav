@@ -4,16 +4,13 @@ import javax.sound.sampled.AudioFormat;
 import javax.sound.sampled.AudioInputStream;
 import javax.sound.sampled.AudioSystem;
 import javax.sound.sampled.UnsupportedAudioFileException;
-import java.awt.geom.Line2D;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Vector;
 
 
 public class AudioWaveformCreator {
     AudioInputStream audioInputStream;
-    Vector<Line2D.Double> lines = new Vector<Line2D.Double>();
     ArrayList<Double> yAxsis = new ArrayList<Double>();
 
     /**
@@ -23,7 +20,6 @@ public class AudioWaveformCreator {
 
     public ArrayList<Double> createWaveForm(String filePath) {
 
-//            lines.removeAllElements();  // clear the old vector
         try {
             audioInputStream = AudioSystem.getAudioInputStream(new File(filePath));
             byte[] audioBytes = null;
@@ -77,7 +73,6 @@ public class AudioWaveformCreator {
 
             int frames_per_pixel = audioBytes.length / format.getFrameSize()/w;
             byte my_byte;
-//            double y_last = 0;
             int numChannels = format.getChannels();
             for (double x = 0; x < w && audioData != null; x++) {
                 int idx = (int) (frames_per_pixel * numChannels * x);
@@ -87,10 +82,7 @@ public class AudioWaveformCreator {
                     my_byte = (byte) (128 * audioData[idx] / 32768 );
                 }
                 double y_new = (double) (h * (128 - my_byte) / 256);
-//                lines.add(new Line2D.Double(x, y_last, x, y_new));
                 yAxsis.add(y_new);
-
-//                y_last = y_new;
             }
         } catch (UnsupportedAudioFileException e) {
             e.printStackTrace();
