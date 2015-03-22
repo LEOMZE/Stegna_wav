@@ -212,7 +212,11 @@ public class StegUIController implements Initializable {
             public void run() {
                 File file1 = new File(filePath.getText());
                 thread.start();
-                File file2 = new File(filePath.getText().substring(0,filePath.getText().indexOf(".")) + "_stego.wav");
+                String name = file1.getAbsolutePath().replace(file1.getName(), "")
+                        + (int) bitSlider.getValue() + ""
+                        + (int) byteSlider.getValue() + "_"
+                        + file1.getName().replaceAll(".wav", "_steg.wav");
+                File file2 = new File(name);
                 do {
 
                     final float i = (float)(file2.length() / (file1.length()/100.0)) * 0.01f ;
