@@ -20,7 +20,12 @@ public class SWrite implements Runnable{
         try {
             FileInputStream fileInputStream = new FileInputStream(filePath);
             BufferedInputStream bufferedInputStream = new BufferedInputStream(fileInputStream);
-            OutputStream outputStream = new FileOutputStream( new File(filePath.substring(0, filePath.indexOf(".")) + "_stego.wav"));
+            File file = new File(filePath);
+            String name = file.getAbsolutePath().replace(file.getName(), "")
+                    + numberOfBit + ""
+                    + numByte + "_"
+                    + file.getName().replaceAll(".wav", "_steg.wav");
+            OutputStream outputStream = new FileOutputStream( new File(name));
             byte[] b = new byte[59];
             bufferedInputStream.read(b, 0, 59);
             outputStream.write(b);
